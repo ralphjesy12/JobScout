@@ -1,4 +1,49 @@
 {% extends 'base.html.twig' %}
+{% block title %}Todo List{% endblock %}
 {% block body %}
-<h1>Todo List</h1>
+<div class="ui raised very padded text container segment">
+    <div class="float right">
+        <p>{{ user.getUsername() }} | <a href="{{ url('logout') }}">Log out</a></p>
+
+    </div>
+    <h2 class="ui header">Job Scout</h2>
+    <div class="ui breadcrumb">
+        <a class="section" href="{{ url('todos') }}">Todo List</a>
+        <!-- <div class="divider"> / </div>
+        <div class="active section">Paper Towels</div> -->
+    </div>
+    <div class="ui divider"></div>
+
+    {% if tasks %}
+    <div class="ui piled segments">
+        {% for task in tasks %}
+        <div class="ui clearing segment">
+            {{ task.content }}
+            <div class="actions">
+                <a href="{{ url('todo_delete',{ 'id' : task.id }) }}" class="mini ui right floated red icon button"> <i class="trash icon"></i></a>
+                {% if task.done %}
+                <a href="{{ url('todo_done',{ 'id' : task.id }) }}" class="mini ui right floated yellow labeled icon button"><i class="clock icon"></i>Mark as Ongoing</a>
+                {% else %}
+                <a href="{{ url('todo_done',{ 'id' : task.id }) }}" class="mini ui right floated green labeled icon button"><i class="check icon"></i>Mark as Done</a>
+                {% endif %}
+            </div>
+            <small>{{ task.updatedAt.diffForHumans() }}</small>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% if app.session.flashBag.has('success') %}
+<div class="ui divider"></div>
+<div class="ui success message">
+    {% for msg in app.session.flashBag.get('success') %}
+    {{ msg }}
+    {% endfor %}
+</div>
+<div class="ui divider"></div>
+{% endif %}
+<a href="{{ url('todo_create') }}" class="ui basic button green">
+    <i class="icon add square"></i>
+    Add New Task
+</a>
+</div>
 {% endblock %}
