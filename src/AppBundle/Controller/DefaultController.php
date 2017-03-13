@@ -53,10 +53,42 @@ class DefaultController extends Controller
         $task = new Task();
         $task->setContent($request->get('content'));
         $task->setCreatedAt(date('Y-m-d H:i:s'));
+        $task->setUpdatedAt(date('Y-m-d H:i:s'));
+        $task->setDone(false);
         $task->setUserId($user->getId());
         $em = $this->getDoctrine()->getManager();
         $em->persist($task);
         $em->flush();
+        return $this->redirectToRoute('todos');
+    }
+    /**
+    * @Route("/todo/delete/{id}", name="todo_delete")
+    */
+    public function todoDeleteAction(Request $request,$id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $task = $em->getReference('AppBundle:Task', $id);
+        $em->remove($task);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'Task deleted successfully'
+        );
+
+        return $this->redirectToRoute('todos');
+    }
+    /**
+    * @Route("/todo/done/{id}", name="todo_done")
+    */
+    public function todoDoneAction(Request $request,$id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $task = $em->getReference('AppBundle:Task', $id);
+        $task = $task->toggleDone();
+        $em->persist($task);
+        $em->flush();
+
         return $this->redirectToRoute('todos');
     }
 

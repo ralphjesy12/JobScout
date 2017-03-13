@@ -15,18 +15,31 @@
     <div class="ui divider"></div>
 
     {% if tasks %}
-    {% for task in tasks %}
-    <div class="ui toggle checkbox">
-        <input type="checkbox" name="public">
-        <label class="content">
-            <h3 class="header">
+    <div class="ui piled segments">
+        {% for task in tasks %}
+        <div class="ui clearing segment">
             {{ task.content }}
-            </h3>
-            <small>{{ task.createdAt.format('Y-m-d H:i:s') }}</small>
-        </label>
+            <div class="actions">
+                <a href="{{ url('todo_delete',{ 'id' : task.id }) }}" class="mini ui right floated red icon button"> <i class="trash icon"></i></a>
+                {% if task.done %}
+                <a href="{{ url('todo_done',{ 'id' : task.id }) }}" class="mini ui right floated yellow labeled icon button"><i class="clock icon"></i>Mark as Ongoing</a>
+                {% else %}
+                <a href="{{ url('todo_done',{ 'id' : task.id }) }}" class="mini ui right floated green labeled icon button"><i class="check icon"></i>Mark as Done</a>
+                {% endif %}
+            </div>
+            <small>{{ task.updatedAt.diffForHumans() }}</small>
+        </div>
+        {% endfor %}
     </div>
-    <div class="ui divider"></div>
+{% endif %}
+{% if app.session.flashBag.has('success') %}
+<div class="ui divider"></div>
+<div class="ui success message">
+    {% for msg in app.session.flashBag.get('success') %}
+    {{ msg }}
     {% endfor %}
+</div>
+<div class="ui divider"></div>
 {% endif %}
 <a href="{{ url('todo_create') }}" class="ui basic button green">
     <i class="icon add square"></i>

@@ -2,71 +2,79 @@
 
 namespace AppBundle\Entity;
 
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Task
- *
- * @ORM\Table(name="task")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\TaskRepository")
- */
+* Task
+*
+* @ORM\Table(name="task")
+* @ORM\Entity(repositoryClass="AppBundle\Repository\TaskRepository")
+*/
 class Task
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="content", type="text")
-     */
+    * @var string
+    *
+    * @ORM\Column(name="content", type="text")
+    */
     private $content;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     */
+    * @var boolean
+    *
+    * @ORM\Column(name="done", type="boolean")
+    */
+    private $done;
+
+    /**
+    * @var \DateTime
+    *
+    * @ORM\Column(name="created_at", type="datetime")
+    */
     private $createdAt;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     */
+    * @var \DateTime
+    *
+    * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+    */
     private $updatedAt;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="user_id", type="integer")
-     */
+    * @var int
+    *
+    * @ORM\Column(name="user_id", type="integer")
+    */
     private $userId;
 
 
     /**
-     * Get id
-     *
-     * @return int
-     */
+    * Get id
+    *
+    * @return int
+    */
     public function getId()
     {
         return $this->id;
     }
 
     /**
-     * Set content
-     *
-     * @param string $content
-     *
-     * @return Task
-     */
+    * Set content
+    *
+    * @param string $content
+    *
+    * @return Task
+    */
     public function setContent($content)
     {
         $this->content = $content;
@@ -75,22 +83,59 @@ class Task
     }
 
     /**
-     * Get content
-     *
-     * @return string
-     */
+    * Get content
+    *
+    * @return string
+    */
     public function getContent()
     {
         return $this->content;
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Task
-     */
+    * Set done
+    *
+    * @param string $done
+    *
+    * @return Task
+    */
+    public function setDone($done)
+    {
+        $this->done = $done;
+
+        return $this;
+    }
+    /**
+    * Set done
+    *
+    * @param string $done
+    *
+    * @return Task
+    */
+    public function toggleDone()
+    {
+        $this->done = !$this->done;
+
+        return $this;
+    }
+
+    /**
+    * Get done
+    *
+    * @return string
+    */
+    public function getDone()
+    {
+        return $this->done;
+    }
+
+    /**
+    * Set createdAt
+    *
+    * @param \DateTime $createdAt
+    *
+    * @return Task
+    */
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = new \DateTime();
@@ -99,22 +144,22 @@ class Task
     }
 
     /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
+    * Get createdAt
+    *
+    * @return \DateTime
+    */
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return Carbon::parse($this->createdAt->format('Y-m-d H:i:s'));
     }
 
     /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return Task
-     */
+    * Set updatedAt
+    *
+    * @param \DateTime $updatedAt
+    *
+    * @return Task
+    */
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = new \DateTime($updatedAt);
@@ -123,22 +168,22 @@ class Task
     }
 
     /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
+    * Get updatedAt
+    *
+    * @return \DateTime
+    */
     public function getUpdatedAt()
     {
-        return $this->updatedAt;
+        return Carbon::parse($this->updatedAt->format('Y-m-d H:i:s'));
     }
 
     /**
-     * Set userId
-     *
-     * @param integer $userId
-     *
-     * @return Task
-     */
+    * Set userId
+    *
+    * @param integer $userId
+    *
+    * @return Task
+    */
     public function setUserId($userId)
     {
         $this->userId = $userId;
@@ -147,10 +192,10 @@ class Task
     }
 
     /**
-     * Get userId
-     *
-     * @return int
-     */
+    * Get userId
+    *
+    * @return int
+    */
     public function getUserId()
     {
         return $this->userId;

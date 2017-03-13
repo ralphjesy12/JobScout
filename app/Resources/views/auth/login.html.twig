@@ -25,7 +25,7 @@ body > .grid {
                 Log-in to your account
             </div>
         </h2>
-        <form class="ui large form" method='post' action='{{ path('login') }}'>
+        <form class="ui large error form" method='post' action='{{ path('login') }}'>
             <div class="ui stacked segment">
                 <div class="field">
                     <div class="ui left icon input">
@@ -45,6 +45,7 @@ body > .grid {
             {% if error %}
             <div class="ui error message">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
+
         </form>
         <div class="ui yellow message">
             New to us? <a href="{{ url('user_registration') }}">Sign Up</a>
