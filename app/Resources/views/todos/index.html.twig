@@ -3,7 +3,8 @@
 {% block body %}
 <div class="ui raised very padded text container segment">
     <div class="float right">
-        <p>{{ user.getUsername() }}</p>
+        <p>{{ user.getUsername() }} | <a href="{{ url('logout') }}">Log out</a></p>
+
     </div>
     <h2 class="ui header">Job Scout</h2>
     <div class="ui breadcrumb">
