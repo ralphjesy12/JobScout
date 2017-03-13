@@ -1,4 +1,35 @@
 {% extends 'base.html.twig' %}
+{% block title %}Todo List{% endblock %}
 {% block body %}
-<h1>Todo List</h1>
+<div class="ui raised very padded text container segment">
+    <div class="float right">
+        <p>{{ user.getUsername() }}</p>
+    </div>
+    <h2 class="ui header">Job Scout</h2>
+    <div class="ui breadcrumb">
+        <a class="section" href="{{ url('todos') }}">Todo List</a>
+        <!-- <div class="divider"> / </div>
+        <div class="active section">Paper Towels</div> -->
+    </div>
+    <div class="ui divider"></div>
+
+    {% if tasks %}
+    {% for task in tasks %}
+    <div class="ui toggle checkbox">
+        <input type="checkbox" name="public">
+        <label class="content">
+            <h3 class="header">
+            {{ task.content }}
+            </h3>
+            <small>{{ task.createdAt.format('Y-m-d H:i:s') }}</small>
+        </label>
+    </div>
+    <div class="ui divider"></div>
+    {% endfor %}
+{% endif %}
+<a href="{{ url('todo_create') }}" class="ui basic button green">
+    <i class="icon add square"></i>
+    Add New Task
+</a>
+</div>
 {% endblock %}
